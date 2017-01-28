@@ -1,4 +1,3 @@
-
 function A(){
   this.aaa = 'aaa';
 }
