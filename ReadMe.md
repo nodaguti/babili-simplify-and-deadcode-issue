@@ -2,18 +2,20 @@
 
 [Babili has an issue](https://github.com/babel/babili/issues/393) where it accidencially removes class member assignments in certain cases when both `simplify` and `deadcode` plugins are enabled.
 
-This repository is to provide minimal sample code to help reproduce the issue. There is another example using React to show the seriousness of this issue.
+This repository is to provide minimal sample code to help reproduce and investigate the issue. There is another example using React to show the seriousness of this issue.
 
 ## Steps to reproduce
 ```sh
-% git clone git@github.com:nodaguti/babili-simplify-and-deadcode-issue.git
+% git clone https://github.com/nodaguti/babili-simplify-and-deadcode-issue.git
 % cd babili-simplify-and-deadcode-issue
 % yarn install  # or `npm install`
-% yarn run minimum  # The minimum sample code
-% yarn run react  # The sample React application
+% yarn run minimum  # Build and run the minimal sample code.
+% yarn run react  # Build and run the sample React application.
 ```
 
-## Minimum code
+You can also reproduce the issue on [Babel repel](http://babeljs.io/repl/#?babili=true&evaluate=true&lineWrap=false&presets=&code=function%20A()%7B%0A%20%20this.aaa%20%3D%20'aaa'%3B%0A%7D%0A%0AA.prototype.bbb%20%3D%20'bbb'%3B%0AA.prototype.ccc%20%3D%20()%20%3D%3E%20'ccc'%3B%0A%0A%2F%2F%20process.env.NODE_ENV%20!%3D%3D%20'production'%20where%20NODE_ENV%3Dproduction%0Aif%20('production'%20!%3D%3D%20'production')%20%7B%0A%20%20var%20ddd%20%3D%20'ddd'%3B%0A%7D%0A%0Aconst%20a%20%3D%20new%20A()%3B%0Aconsole.log(a.aaa)%3B%0Aconsole.log(a.bbb)%3B%0Aconsole.log(a.ccc())%3B).
+
+## Minimal code
 ### Expected Result
 ```
 $ node lib/minimum-none.js
@@ -95,8 +97,6 @@ if (A.prototype.bbb='bbb', A.prototype.ccc=()=>'ccc', false)
 (Added whitespace for readability)
 
 and `deadcode` removes the `if` block, wiping `A#bbb` and `A#ccc` out.
-
-You can also reproduce the issue on [Babel repl](http://babeljs.io/repl/#?babili=true&evaluate=false&lineWrap=false&presets=&code=function%20A()%7B%0A%20%20this.aaa%20%3D%20'aaa'%3B%0A%7D%0A%0AA.prototype.bbb%20%3D%20'bbb'%3B%0AA.prototype.ccc%20%3D%20()%20%3D%3E%20'ccc'%3B%0A%0A%2F%2F%20process.env.NODE_ENV%20!%3D%3D%20'production'%20where%20NODE_ENV%3Dproduction%0Aif%20('production'%20!%3D%3D%20'production')%20%7B%0A%20%20var%20ddd%20%3D%20'ddd'%3B%0A%7D%0A%0Aconst%20a%20%3D%20new%20A()%3B%0Aconsole.log(a.aaa)%3B%0Aconsole.log(a.bbb)%3B%0Aconsole.log(a.ccc)%3B).
 
 
 ## React
