@@ -96,7 +96,7 @@ if (A.prototype.bbb='bbb', A.prototype.ccc=()=>'ccc', false)
 
 and `deadcode` removes the `if` block, wiping `A#bbb` and `A#ccc` out.
 
-You can also see the output on [Babel repl](http://babeljs.io/repl/#?babili=true&evaluate=false&lineWrap=false&presets=react%2Cstage-2&code=function%20A()%7B%0A%20%20this.aaa%20%3D%20'aaa'%3B%0A%7D%0A%0AA.prototype.bbb%20%3D%20'bbb'%3B%0AA.prototype.ccc%20%3D%20()%20%3D%3E%20'ccc'%3B%0A%0Aif%20('production'%20!%3D%3D%20'production')%20%7B%0A%20%20var%20ddd%20%3D%20'ddd'%3B%0A%7D%0A%0Amodule.exports%20%3D%20A%3B).
+You can also reproduce the issue on [Babel repl](http://babeljs.io/repl/#?babili=true&evaluate=false&lineWrap=false&presets=&code=function%20A()%7B%0A%20%20this.aaa%20%3D%20'aaa'%3B%0A%7D%0A%0AA.prototype.bbb%20%3D%20'bbb'%3B%0AA.prototype.ccc%20%3D%20()%20%3D%3E%20'ccc'%3B%0A%0A%2F%2F%20process.env.NODE_ENV%20!%3D%3D%20'production'%20where%20NODE_ENV%3Dproduction%0Aif%20('production'%20!%3D%3D%20'production')%20%7B%0A%20%20var%20ddd%20%3D%20'ddd'%3B%0A%7D%0A%0Aconst%20a%20%3D%20new%20A()%3B%0Aconsole.log(a.aaa)%3B%0Aconsole.log(a.bbb)%3B%0Aconsole.log(a.ccc)%3B).
 
 
 ## React
