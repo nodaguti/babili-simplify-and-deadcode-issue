@@ -99,6 +99,6 @@ Note that this 'optimisation' occurs because this code uses webpack to bundle th
 ![Actual display](react-actual.png)
 
 ### Why broken?
-With the same mechanism mentioned above, `simplify` and `deadcode` eliminates `ReactComponent#isReactComponent` ([ReactComponent.js#L33](https://github.com/facebook/react/blob/master/src/isomorphic/modern/class/ReactComponent.js#L33)), which causes `shouldConstruct()` ([ReactCompositeComponent.js#L46](https://github.com/facebook/react/blob/master/src/renderers/shared/stack/reconciler/ReactCompositeComponent.js#L46)) to return `false`, which finally leads to call each React component's constructor without `new` ((ReactCompositeComponent#L416)[https://github.com/facebook/react/blob/master/src/renderers/shared/stack/reconciler/ReactCompositeComponent.js#L416]).
+With the same mechanism mentioned above, `simplify` and `deadcode` eliminates `ReactComponent#isReactComponent` ([ReactComponent.js#L33](https://github.com/facebook/react/blob/master/src/isomorphic/modern/class/ReactComponent.js#L33)), which causes `shouldConstruct()` ([ReactCompositeComponent.js#L46](https://github.com/facebook/react/blob/master/src/renderers/shared/stack/reconciler/ReactCompositeComponent.js#L46)) to return `false`, which finally leads to call each React component's constructor without `new` ([ReactCompositeComponent#L416](https://github.com/facebook/react/blob/master/src/renderers/shared/stack/reconciler/ReactCompositeComponent.js#L416)).
 
 This is a serious problem since it prevents any user-defined React components from working.
