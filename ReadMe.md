@@ -1,6 +1,6 @@
 # Babili `simplify` and `deadcode` issue
 
-Babili has an issue where it accidencially removes class member assignments in certain cases when both `simplify` and `deadcode` plugins are enabled.
+[Babili has an issue](https://github.com/babel/babili/issues/393) where it accidencially removes class member assignments in certain cases when both `simplify` and `deadcode` plugins are enabled.
 
 This repository is to provide minimal sample code to help reproduce the issue. There is another example using React to show the seriousness of this issue.
 
