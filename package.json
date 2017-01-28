@@ -1,0 +1,40 @@
+{
+  "name": "babili-simplify-and-deadcode-issue",
+  "version": "1.0.0",
+  "description": "Sample code to reproduce an issue where Babili removes class member assignments",
+  "repository": "nodaguti/babili-simplify-and-deadcode-issue",
+  "scripts": {
+    "clean": "rimraf lib",
+    "minimum": "cross-env NODE_ENV=production npm-run-all clean build:minimum:* run:minimum:*",
+    "build:minimum:none": "cross-env NAME=none DISABLE_SIMPLIFY_PLUGIN=1 DISABLE_DCE_PLUGIN=1 webpack --config webpack.minimum.config.js --progress --display-error-details",
+    "build:minimum:deadcode": "cross-env NAME=deadcode DISABLE_SIMPLIFY_PLUGIN=1 webpack --config webpack.minimum.config.js --progress --display-error-details",
+    "build:minimum:simplify": "cross-env NAME=simplify DISABLE_DCE_PLUGIN=1 webpack --config webpack.minimum.config.js --progress --display-error-details",
+    "build:minimum:both": "cross-env NAME=both webpack --config webpack.minimum.config.js --progress --display-error-details",
+    "run:minimum:none": "node lib/minimum-none.js",
+    "run:minimum:deadcode": "node lib/minimum-deadcode.js",
+    "run:minimum:simplify": "node lib/minimum-simplify.js",
+    "run:minimum:both": "node lib/minimum-both.js",
+    "react": "cross-env NODE_ENV=production npm-run-all clean build:react run:react",
+    "build:react": "webpack --config webpack.react.config.js --progress --display-error-details",
+    "run:react": "webpack-dev-server --config webpack.react.config.js --progress --open"
+  },
+  "keywords": [
+    "babili"
+  ],
+  "author": "nodaguti",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-react": "^6.22.0",
+    "babili-webpack-plugin": "^0.0.9",
+    "cross-env": "^3.1.4",
+    "npm-run-all": "^4.0.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "rimraf": "^2.5.4",
+    "webpack": "beta",
+    "webpack-dev-server": "beta"
+  }
+}
