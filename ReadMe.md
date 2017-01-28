@@ -13,7 +13,7 @@ This repository is to provide minimal sample code to help reproduce and investig
 % yarn run react  # Build and run the sample React application.
 ```
 
-You can also reproduce the issue on [Babel repel](http://babeljs.io/repl/#?babili=true&evaluate=true&lineWrap=false&presets=&code=function%20A()%7B%0A%20%20this.aaa%20%3D%20'aaa'%3B%0A%7D%0A%0AA.prototype.bbb%20%3D%20'bbb'%3B%0AA.prototype.ccc%20%3D%20()%20%3D%3E%20'ccc'%3B%0A%0A%2F%2F%20process.env.NODE_ENV%20!%3D%3D%20'production'%20where%20NODE_ENV%3Dproduction%0Aif%20('production'%20!%3D%3D%20'production')%20%7B%0A%20%20var%20ddd%20%3D%20'ddd'%3B%0A%7D%0A%0Aconst%20a%20%3D%20new%20A()%3B%0Aconsole.log(a.aaa)%3B%0Aconsole.log(a.bbb)%3B%0Aconsole.log(a.ccc())%3B).
+You can also reproduce the issue on [Babel repl](http://babeljs.io/repl/#?babili=true&evaluate=true&lineWrap=false&presets=&code=function%20A()%7B%0A%20%20this.aaa%20%3D%20'aaa'%3B%0A%7D%0A%0AA.prototype.bbb%20%3D%20'bbb'%3B%0AA.prototype.ccc%20%3D%20()%20%3D%3E%20'ccc'%3B%0A%0A%2F%2F%20process.env.NODE_ENV%20!%3D%3D%20'production'%20where%20NODE_ENV%3Dproduction%0Aif%20('production'%20!%3D%3D%20'production')%20%7B%0A%20%20var%20ddd%20%3D%20'ddd'%3B%0A%7D%0A%0Aconst%20a%20%3D%20new%20A()%3B%0Aconsole.log(a.aaa)%3B%0Aconsole.log(a.bbb)%3B%0Aconsole.log(a.ccc())%3B).
 
 ## Minimal code
 ### Expected Result
