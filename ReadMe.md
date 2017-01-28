@@ -4,7 +4,7 @@
 
 This repository is to provide minimal sample code to help reproduce the issue. There is another example using React to show the seriousness of this issue.
 
-## Step to reproduce
+## Steps to reproduce
 ```sh
 % git clone git@github.com:nodaguti/babili-simplify-and-deadcode-issue.git
 % cd babili-simplify-and-deadcode-issue
@@ -71,6 +71,10 @@ TypeError: a.ccc is not a function
 The original code involved is
 
 ```
+function A(){
+  this.aaa = 'aaa';
+}
+
 A.prototype.bbb = 'bbb';
 A.prototype.ccc = () => 'ccc';
 
@@ -80,15 +84,19 @@ if (process.env.NODE_ENV !== 'production') {
 ```
 which is a ES5-style class definition (src/minimum/A.js).
 
-With `process.env.NODE_ENV == 'production'`, `simplify` changes the code into (Added whitespace for readability):
+With `process.env.NODE_ENV` being `production`, `simplify` changes the code into
 ```
+function A(){
+  this.aaa = 'aaa'
+}
 if (A.prototype.bbb='bbb', A.prototype.ccc=()=>'ccc', false)
-    var ddd = 'ddd';
+  var ddd = 'ddd';
 ```
+(Added whitespace for readability)
 
 and `deadcode` removes the `if` block, wiping `A#bbb` and `A#ccc` out.
 
-Note that this 'optimisation' occurs because this code uses webpack to bundle the code, making the code of Module `A` local rather than global. (i.e. This issue doesn't happen if you copy the content of `A.js` into Babel repl.)
+You can also see the output on [Babel repl](http://babeljs.io/repl/#?babili=true&evaluate=false&lineWrap=false&presets=react%2Cstage-2&code=function%20A()%7B%0A%20%20this.aaa%20%3D%20'aaa'%3B%0A%7D%0A%0AA.prototype.bbb%20%3D%20'bbb'%3B%0AA.prototype.ccc%20%3D%20()%20%3D%3E%20'ccc'%3B%0A%0Aif%20('production'%20!%3D%3D%20'production')%20%7B%0A%20%20var%20ddd%20%3D%20'ddd'%3B%0A%7D%0A%0Amodule.exports%20%3D%20A%3B).
 
 
 ## React
@@ -99,6 +107,6 @@ Note that this 'optimisation' occurs because this code uses webpack to bundle th
 ![Actual display](react-actual.png)
 
 ### Why broken?
-With the same mechanism mentioned above, `simplify` and `deadcode` eliminates `ReactComponent#isReactComponent` ([ReactComponent.js#L33](https://github.com/facebook/react/blob/master/src/isomorphic/modern/class/ReactComponent.js#L33)), which causes `shouldConstruct()` ([ReactCompositeComponent.js#L46](https://github.com/facebook/react/blob/master/src/renderers/shared/stack/reconciler/ReactCompositeComponent.js#L46)) to return `false`, which finally leads to call each React component's constructor without `new` ([ReactCompositeComponent#L416](https://github.com/facebook/react/blob/master/src/renderers/shared/stack/reconciler/ReactCompositeComponent.js#L416)).
+With the same mechanism mentioned above, `simplify` and `deadcode` eliminate `ReactComponent#isReactComponent` ([ReactComponent.js#L33](https://github.com/facebook/react/blob/master/src/isomorphic/modern/class/ReactComponent.js#L33)), which causes `shouldConstruct()` ([ReactCompositeComponent.js#L46](https://github.com/facebook/react/blob/master/src/renderers/shared/stack/reconciler/ReactCompositeComponent.js#L46)) to return `false`, which finally leads to call each React component's constructor without `new` ([ReactCompositeComponent#L416](https://github.com/facebook/react/blob/master/src/renderers/shared/stack/reconciler/ReactCompositeComponent.js#L416)).
 
 This is a serious problem since it prevents any user-defined React components from working.
